@@ -1,88 +1,102 @@
 import '../style/MainPage.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { UseSelector, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { NavItem } from 'react-bootstrap';
+
 
 function MainPage() {
-    const navTabs = document.querySelectorAll("#nav-tabs > a");
-    navTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            navTabs.forEach((tab) => {
-                tab.classList.remove("active");
-            });
-            tab.classList.add("active");
-        });
-    });
+    const user = useSelector((state) => state.user);
+    const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
+    const handleWriter = () => {
+        navigate('/writer');
+    }
+    const handleDetailClick = (boardId) => {
+        navigate(`${boardId}`)
+    }
 
-    const posts = [
-        { id: 1, title: '게시글 1', content: '내용 1', author: '작성자 1' },
-        { id: 2, title: '게시글 2', content: '내용 2', author: '작성자 2' },
-        { id: 3, title: '게시글 3', content: '내용 3', author: '작성자 3' },
-        { id: 4, title: '게시글 4', content: '내용 4', author: '작성자 2' },
-        { id: 5, title: '게시글 5', content: '내용 5', author: '작성자 1' },
-        // ... 추가 게시글
-    ];
+
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/board/")
+            .then((res) => {
+                // console.log(res.data)
+                setPosts(res.data)
+                console.log('post변화감지:' + posts)
+            })
+    }, []);
+
+
+    // const navTabs = document.querySelectorAll("#nav-tabs > a");
+    // navTabs.forEach((tab) => {
+    //     tab.addEventListener("click", () => {
+    //         navTabs.forEach((tab) => {
+    //             tab.classList.remove("active");
+    //         });
+    //         tab.classList.add("active");
+    //     });
+    // });
+
+
 
     return (
         <>
-            {/* <img src="kt ds.png"></img> */}
-            <div class="site-wrap">
-                <nav class="site-nav">
-                    <div class="name">
-                        K - DS
-                    </div>
-                    <ul>
-                        <li class="active"><a href="main">게시판</a>
-                        </li>
-                        <li><a href="update">회원정보수정</a></li>
-                        <li><a href="profile">내정보</a></li>
-                    </ul>
-                </nav>
-                <main>
-                    <header>
-                        <h1 class="title">게시판</h1>
-                        <nav class="nav-tabs" id="nav-tabs">
-                            <a href="#0" class="active">
-                                최신순
-                            </a>
-                            <a href="#1">
-                                추천순
-                            </a>
-                        </nav>
-                    </header>
 
-                    <div class="content-columns">
-                        <div class="col">
-                            <Row>
-                                <Col sm={2}>
-                                    <div>No.</div>
-                                </Col>
-                                <Col sm={8}>
-                                    <div>제목</div>
-                                </Col>
-                                <Col sm={2}>
-                                    <div>작성자</div>
-                                </Col>
-                            </Row>
-                            {posts.map((post) => (
-                                <div key={post.id}>
-                                    <Row>
-                                        <Col sm={2}>
-                                            <div>{post.id}</div>
-                                        </Col>
-                                        <Col sm={8}>
-                                            <div>{post.title}</div>
-                                        </Col>
-                                        <Col sm={2}>
-                                            <div>{post.author}</div>
-                                        </Col>
-                                        <hr />
-                                    </Row>
-                                </div>
-                            ))}
-                        </div>
+            <main>
+                <header>
+                    <h1 className="title">게시판</h1>
+                    <nav className="nav-tabs" id="nav-tabs">
+                        {/* <a href="#0" className="active">
+                            최신순
+                        </a>
+                        <a href="#1">
+                            추천순
+                        </a> */}
+                    </nav>
+                </header>
+
+                <div className="content-columns">
+                    <div className="col">
+                        <Row>
+                            <Col sm={2}>
+                                <div>No.</div>
+                            </Col>
+                            <Col sm={8}>
+                                <div>제목</div>
+                            </Col>
+                            <Col sm={2}>
+                                <div>작성자</div>
+                            </Col>
+                        </Row>
+                        {posts.map((post, index) => (
+                            <div key={index}>
+
+                                <Row >
+                                    <Col sm={2}>
+                                        <div onClick={() => handleDetailClick(post.boardId)}>{posts.length - index}</div>
+                                    </Col>
+                                    <Col sm={8}>
+                                        {/* <div>게시글pk{post.boardId}</div> */}
+                                        <div onClick={() => handleDetailClick(post.boardId)}>{post.boardTitle}</div>
+                                    </Col>
+                                    <Col sm={2}>
+                                        <div onClick={() => handleDetailClick(post.boardId)}>{post.boardWriter}</div>
+                                    </Col>
+                                    <hr />
+                                </Row>
+
+                            </div>
+                        ))}
+                        <div style={{ textAlign: 'right' }}>   <button onClick={handleWriter}>작성하기</button></div>
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
+            {/* </div> */}
         </>
     )
 }

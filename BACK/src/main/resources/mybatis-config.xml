@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-<!--        <typeAlias type="com.ktds.jspservlet.dto.BoardDTO" alias="board"></typeAlias>-->
-<!--        <typeAlias type="com.ktds.jspservlet.dto.CommentDTO" alias="comment"></typeAlias>-->
+        <typeAlias type="com.example.ds.dto.BoardDTO" alias="board"/>
+        <typeAlias type="com.example.ds.dto.MemberDTO" alias="member"/>
+        <typeAlias type="com.example.ds.dto.CommentDTO" alias="comment"/>
     </typeAliases>
 </configuration>

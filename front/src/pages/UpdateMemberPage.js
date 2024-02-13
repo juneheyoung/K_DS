@@ -6,11 +6,12 @@ import Col from 'react-bootstrap/Col';
 import { useCallback, useState, useEffect } from "react";
 import '../style/LoginPage.css';
 import '../style/UpdateMemberPage.css';
-
-
+import { useSelector } from 'react-redux';
 
 
 function UpdateMemberPage() {
+    const user = useSelector((state) => state.user)
+
     const [username, setUsername] = useState('');
     const [profileUrl, setProfileUrl] = useState('');
     const [originProfileUrl, setOriginProfileUrl] = useState('');
@@ -20,39 +21,42 @@ function UpdateMemberPage() {
     const [validNickname, setValidNickname] = useState(false);
     const [uploadFile, setUploadFile] = useState('');
 
-    useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + "/api/member")
-            .then((res) => {
-                if (res.status === 200) {
-                    setOriginNickname(res.data.nickname);
-                    setOriginProfileUrl(res.data.profile_url);
-                    setUsername(res.data.username);
-                    setProfileUrl(res.data.profile_url);
-                }
-                else {
-                    Toast.fire("회원 정보를 불러올 수 없습니다.", "", "error");
-                }
-            })
-            .catch((res) => {
-                // console.log(res);
-                Toast.fire("회원 정보를 불러올 수 없습니다.", "", "error");
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(process.env.REACT_APP_BASE_URL + "/api/member")
+    //         .then((res) => {
+    //             if (res.status === 200) {
+    //                 setOriginNickname(res.data.nickname);
+    //                 setOriginProfileUrl(res.data.profile_url);
+    //                 setUsername(res.data.username);
+    //                 setProfileUrl(res.data.profile_url);
+    //             }
+    //             else {
+    //                 Toast.fire("회원 정보를 불러올 수 없습니다.", "", "error");
+    //             }
+    //         })
+    //         .catch((res) => {
+    //             // console.log(res);
+    //             Toast.fire("회원 정보를 불러올 수 없습니다.", "", "error");
+    //         })
+    // }, [])
 
-    useEffect(() => {
-        setValidNickname(nickname.length <= 30)
-        if (nickname.length === 0) {
-            setNicknameDuplicateCheck(true);
-        }
-        else setNicknameDuplicateCheck(false);
-    }, [nickname])
+    // useEffect(() => {
+    //     setValidNickname(nickname.length <= 30)
+    //     if (nickname.length === 0) {
+    //         setNicknameDuplicateCheck(true);
+    //     }
+    //     else setNicknameDuplicateCheck(false);
+    // }, [nickname])
+
+
+
 
     const handleNicknameDuplicateCheck = useCallback((e) => {
         e.preventDefault();
         // console.log('Nickname-Duplication-Check')
 
         if (!validNickname) {
-            Toast.fire("닉네임은 1자 이상 30자 이하여야 합니다.", "", "warning");
+            Toast.fire("아이디 중복", "", "warning");
             return;
         }
 
@@ -140,58 +144,55 @@ function UpdateMemberPage() {
 
     return (
         <>
-            <div class="site-wrap">
-                <nav class="site-nav">
-                    <div class="name">
-                        K - DS
+            <main>
+                <header>
+                    <h1 class="title">회원정보수정</h1>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+                        <form className="member-info-form" style={{ width: '50%' }} onSubmit={onSubmit}>
+                            {/* 내 아이디(이메일) */}
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Ghost.png" alt="Ghost" />
+                            </div>
+                            <div className="formGroup">
+
+                                <label htmlFor="formNickname" className="member-info-label"> 아이디 </label>
+                                <div className="formGroupComponent">
+                                    <input className='formInput' type="id" id="myEmail" placeholder={username} />
+                                    <button className='duplicationCheckButton' onClick={handleNicknameDuplicateCheck}>중복 확인</button>
+                                </div>
+                            </div>
+                            {/* 닉네임 수정 */}
+                            <div className="formGroup">
+                                <label htmlFor="formNickname" className="member-info-label"> 닉네임 </label>
+
+                                <input className='formInput' onChange={e => { setNickname(e.target.value) }} type="text" id='formNickname' placeholder={originNickname} />
+
+
+                                {!validNickname && nickname.length >= 1 && (
+                                    <div className="errorMsg">닉네임은 30자 이내로 작성해주세요.</div>
+                                )}
+                            </div>
+                            {/* 비밀번호 수정*/}
+                            <div className="formGroup">
+                                <label htmlFor="formNickname" className="member-info-label"> 비밀번호 </label>
+
+                                <input className='formInput' onChange={e => { setNickname(e.target.value) }} type="text" id='formNickname' placeholder={originNickname} />
+
+
+                                {!validNickname && nickname.length >= 1 && (
+                                    <div className="errorMsg">닉네임은 30자 이내로 작성해주세요.</div>
+                                )}
+                            </div>
+                            
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <button className="submitButton" type="submit">
+                                    수정하기
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <ul>
-                        <li class="active"><a href="main">게시판</a>
-                        </li>
-                        <li><a href="update">회원정보수정</a></li>
-                        <li><a href="profile">내정보</a></li>
-                    </ul>
-                </nav>
-                <main>
-
-                    <header>
-                        <h1 class="title">회원정보수정</h1>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
-                            <form className="member-info-form" style={{ width: '50%' }} onSubmit={onSubmit}>
-                                {/* 내 아이디(이메일) */}
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Ghost.png" alt="Ghost" />
-                                </div>
-                                <div className="formGroup">
-
-                                    <label htmlFor="formNickname" className="member-info-label"> 아이디 </label>
-                                    <div className="formGroupComponent">
-                                        <input className='formInput' type="id" id="myEmail" placeholder={username} />
-                                        <button className='duplicationCheckButton' onClick={handleNicknameDuplicateCheck}>중복 확인</button>
-                                    </div>
-                                </div>
-                                {/* 비밀번호 수정*/}
-                                <div className="formGroup">
-                                    <label htmlFor="formNickname" className="member-info-label"> 비밀번호 </label>
-
-                                    <input className='formInput' onChange={e => { setNickname(e.target.value) }} type="text" id='formNickname' placeholder={originNickname} />
-
-
-                                    {!validNickname && nickname.length >= 1 && (
-                                        <div className="errorMsg">닉네임은 30자 이내로 작성해주세요.</div>
-                                    )}
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <button className="submitButton" type="submit">
-                                        수정하기
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </header>
-                </main>
-
-            </div >
+                </header>
+            </main>
         </>
     )
 }

@@ -1,5 +1,5 @@
 // eslintjsx-a11y/alt-text
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import Toast from '../components/Toast'
 import Container from 'react-bootstrap/Container';
@@ -7,9 +7,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../style/LoginPage.css'
 import ControlledCarousel from "../components/ControlledCarousel";
-
+import { useNavigate } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/userSlice";
 
 function LoginPage() {
+  const user = useSelector((state)=>state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async (e) => {
@@ -21,12 +27,32 @@ function LoginPage() {
     } else if (!password) {
       return Toast.fire("비밀번호를 입력해주세요", "", "warning")
     }
-    // axios 요청 보내기
-    let body = {
-      username: id,
-      password: password
-    };
-  }
+
+    try {
+      const response = await axios.post('http://localhost:8080/member/login', new URLSearchParams({
+        userEmail: id,
+        userPass: password,
+        // 추가 필드 및 값들...
+      }), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+      )
+        ;
+
+      console.log(response.data);
+      dispatch(loginUser(response.data))
+      navigate('/main')
+    } catch (error) {
+      console.error('Error:', error);
+      Toast.fire("아이디나 비밀번호를 확인해주세요", "", "error");
+    }
+  };
+
+  useEffect(() => {
+    console.log(user);
+}, [])
 
   return (
     <>
