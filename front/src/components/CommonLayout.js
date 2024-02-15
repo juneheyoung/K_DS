@@ -1,10 +1,10 @@
 // CommonLayout.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-
+import '../style/CommonLayout.css';
 
 
 const CommonLayout = ({ children }) => {
@@ -16,6 +16,7 @@ const CommonLayout = ({ children }) => {
         console.log(user)
         navigate('/')
     }
+ 
 
 
 
@@ -26,19 +27,21 @@ const CommonLayout = ({ children }) => {
             <nav className="site-nav">
                 <div className="name">{user.userName}님</div>
                 <ul>
-                    <li className="active">
+                    <li >
                         <a href="/main">게시판</a>
                     </li>
                     <li>
-                        <a href="/update">회원정보수정</a>
+                        <a href="/userupdate">회원정보수정</a>
                     </li>
                     <li>
                         <a href="/profile">내정보</a>
                     </li>
                     <li>
-                        <div onClick={handleLogout}> 로그아웃 </div>
+                        <a onClick={handleLogout}> 로그아웃</a>
+
                     </li>
                 </ul>
+
             </nav>
             {children}
         </div>

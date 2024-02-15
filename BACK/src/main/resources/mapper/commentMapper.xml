@@ -7,8 +7,17 @@
         insert into comment_table(commentWriter, commentContents, boardId)
         values(#{commentWriter}, #{commentContents}, #{boardId})
     </insert>
-    <select id="findAll" parameterType="Long" resultType="comment">
-        select * from comment_table where boardId=#{boardId} order by id desc
+<!--    <select id="findAll" parameterType="int" resultType="comment">-->
+<!--        select a.* b.userName-->
+<!--        from comment_table a-->
+<!--        inner join user_table b on a.commentWriter = b.userId-->
+<!--        where boardId =#{boardId} order by commentId desc-->
+<!--    </select>-->
+    <select id="findAll" parameterType="int" resultType="comment">
+        select a.*, b.userName
+        from comment_table a
+        inner join user_table b on a.commentWriter = b.userId
+        where boardId = #{boardId} order by commentId desc
     </select>
 
 <!--    특정댓글 삭제-->

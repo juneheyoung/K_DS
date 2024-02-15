@@ -8,13 +8,24 @@
         values(#{boardTitle}, #{boardContents},#{boardWriter})
     </insert>
     <select id="findAll" resultType="board">
-        select * from board_table order by boardId desc
+<!--        select * from board_table order by boardId desc-->
+        SELECT board_table.*, user_table.userName
+        FROM board_table
+        INNER JOIN user_table ON board_table.boardWriter = user_table.userId
+        ORDER BY board_table.boardId DESC
     </select>
     <select id="findById" parameterType="int" resultType="board">
         select * from board_table where boardId=#{id}
     </select>
+    <select id="findByUserId" parameterType="int" resultType="board">
+        select * from board_table where boardWriter=#{id}
+        order by boardId desc
+    </select>
     <update id="updateHits" parameterType="int">
         update board_table set boardHits = boardHits + 1 where boardId=#{id}
+    </update>
+    <update id="updateLike" parameterType="int">
+        update board_table set boardLike = boardLike + 1 where boardId=#{id}
     </update>
     <delete id="delete" parameterType="int">
         delete from board_table where boardId=#{id}

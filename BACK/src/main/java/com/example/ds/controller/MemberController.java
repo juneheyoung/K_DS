@@ -30,14 +30,33 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 게시글 저장 실패 시 다시 "save" 페이지로 이동
         }
     }
-
-    // 회원정보 수정
     @PostMapping("/update")
-    public ResponseEntity<MemberDTO> update(MemberDTO memberDTO) {
-        memberService.update(memberDTO);
-        MemberDTO dto = memberService.findById(memberDTO.getUserId());
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<String> updateMemberInfo(@RequestBody MemberDTO memberDTO) {
+        boolean isUpdateSuccessful = memberService.updateMemberInfo(memberDTO);
+
+        if (isUpdateSuccessful) {
+            return ResponseEntity.ok("회원 정보가 성공적으로 수정되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 정보 수정에 실패했습니다. 중복된 아이디 또는 닉네임이 있을 수 있습니다.");
+        }
     }
+
+
+
+
+
+//    @PostMapping("/update")
+//    public ResponseEntity<MemberDTO> update(MemberDTO memberDTO) {
+//        memberService.update(memberDTO);
+//        MemberDTO dto = memberService.findById(memberDTO.getUserId());
+//        return ResponseEntity.ok(dto);
+//    }
+
+
+
+
+
+    //
 //        ResponseEntity<?> response = memberService.updateUser(userEmail, updatedUser);
 //
 //        return response ;

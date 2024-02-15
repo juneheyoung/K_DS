@@ -22,12 +22,26 @@ public class MemberRepository {
         return sql.selectOne("Member.login", paramMap);
     }
 
-    public void update(MemberDTO memberDTO) {
-        sql.update("Member.update",memberDTO);
-    }
+//    public void update(MemberDTO memberDTO) {
+//        sql.update("Member.update",memberDTO);
+//    }
 
     public MemberDTO findById(int userId) {
         return sql.selectOne("Member.findById",userId);
+    }
+
+    //중복이메일 점검
+    public boolean existsById(String userEmail) {
+        return sql.selectOne("Member.existsById",userEmail);
+    }
+    //중복닉네임 점검
+    public boolean existsByNickname(String userName) {
+        return sql.selectOne("Member.existsByNickname",userName);
+
+    }
+
+    public void updateMemberInfo(MemberDTO memberDTO) {
+         sql.update("Member.updateMemberInfo", memberDTO);
     }
 //
 //    public Optional<MemberDTO> findByEmail(String userEmail) {
@@ -45,7 +59,7 @@ public class MemberRepository {
 //----------------------
 //
 //    public MemberDTO login(String userEmail, String userPass) {
-//
+////
 //        return sql.selectOne("Member.login");
 //    }
 

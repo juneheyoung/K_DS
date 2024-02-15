@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import CommonLayout from './components/CommonLayout';
 import BoardWritePage from './pages/BoardWritePage';
 import BoardDetailPage from './pages/BoardDetailPage';
+import BoardUpdatePage from './pages/BoardUpdatePage';
 // 로그인 X : navbar 없음 , 로그인 이면 navbar on 
 
 function App() {
@@ -46,8 +47,20 @@ function App() {
           }
         />
 
+        {/* 글 수정 디테일 */}
         <Route
-          path='/update'
+          path='/update/:id'
+          element={
+            <>
+              <CommonLayout>
+                <BoardUpdatePage />
+              </CommonLayout>
+            </>
+          }
+        />
+
+        <Route
+          path='/userupdate'
           element={
             <>
               <CommonLayout>

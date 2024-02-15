@@ -17,6 +17,7 @@ public class BoardDTO {
     private int boardHits;
     private int boardLike;
     private int boardWriter;
+    private String userName;
 //    private int boardCategory;
 //    private int categoryId;
 

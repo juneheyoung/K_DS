@@ -18,14 +18,15 @@ public class CommentController {
     private final CommentService commentService ;
 
     @PostMapping("/save")
-    public ResponseEntity<CommentDTO> save(CommentDTO commentDTO){
+    public ResponseEntity<CommentDTO> save(@RequestBody CommentDTO commentDTO){
         System.out.println("CommentDTO" + commentDTO);
         commentService.save(commentDTO);
     return ResponseEntity.ok(commentDTO);
     }
-    @GetMapping("/")
-    public ResponseEntity<List<CommentDTO>> findAll(CommentDTO commentDTO) {
-        List<CommentDTO> commentDTOList = commentService.findAll((long) commentDTO.getBoardId());
+    @GetMapping
+    public ResponseEntity<List<CommentDTO>> findAll(@RequestParam("id") int id) {
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+
         return ResponseEntity.ok(commentDTOList);
 
     }

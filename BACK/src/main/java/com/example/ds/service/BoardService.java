@@ -38,4 +38,11 @@ public class BoardService {
     public void update(BoardDTO boardDTO) {
         boardRepository.update(boardDTO);
     }
+
+    public List<BoardDTO> findByUserId(int id) { return boardRepository.findByUserId(id);
+    }
+
+    public void updateLike(int id) {
+        boardRepository.updateLike(id);
+    }
 }

@@ -44,6 +44,20 @@ public class BoardController {
         return ResponseEntity.ok(boardDTO);
     }
 
+//    @GetMapping("/like")
+//    public  likeById(@RequestParam("id") int id){
+//        boardService.updateLike(id);
+//    }
+
+
+
+    // 내가 쓴 게시글 조회
+    @GetMapping("/search")
+    public ResponseEntity<List<BoardDTO>> findByUserId(@RequestParam("id") int id){
+        List<BoardDTO> boardDTOList = boardService.findByUserId(id);
+        return ResponseEntity.ok(boardDTOList);
+    }
+
     // 게시글 삭제
     @GetMapping("/delete")
     public void delete(@RequestParam("id") int id){
@@ -59,5 +73,7 @@ public class BoardController {
         return ResponseEntity.ok(boardDTO);
 
     }
+
+
 }
 

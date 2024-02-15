@@ -36,6 +36,12 @@ public class BoardRepository {
     public void update(BoardDTO boardDTO) {
         sql.update("Board.update",boardDTO);
     }
+
+    public List<BoardDTO> findByUserId(int id) { return sql.selectList("Board.findByUserId",id);
+    }
+
+    public void updateLike(int id) { sql.update("Board.updateLike",id);
+    }
 }
 
 

@@ -8,7 +8,24 @@
         WHERE userEmail = #{userEmail} AND userPass = #{userPass}
     </select>
 
-    <update id="update" parameterType="member">
+
+    <select id="findById" resultType="member">
+        SELECT * FROM user_table
+        WHERE userId = #{userId}
+    </select>
+    <select id="existsById" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user_table
+        WHERE userEmail = #{userEmail}
+    </select>
+    <select id="existsByNickname" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user_table
+        WHERE userName = #{userName}
+    </select>
+
+
+    <update id="updateMemberInfo" parameterType="member">
         update user_table set userEmail=#{userEmail}, userPass=#{userPass}, userName=#{userName}
         where userId=#{userId}
     </update>

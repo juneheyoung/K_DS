@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Like">
+    <insert id="save" parameterType="like">
+        insert into like_table(userId, boardId)
+        values(#{userId}, #{boardId})
+    </insert>
+
+    <delete id="delete" parameterType="map">
+        delete from like_table
+        where boardId=#{boardId} and userId=#{userId}
+    </delete>
+
+    <select id="findByUserId" parameterType="int" resultType="like">
+<!--        select * from like_table where userId=#{id}-->
+<!--        order by boardId desc-->
+        SELECT l.*, b.boardTitle
+        FROM like_table l
+        INNER JOIN board_table b ON l.boardId = b.boardId
+        WHERE l.userId = #{id}
+        ORDER BY l.boardId DESC
+    </select>
+    <select id="findByBoardId" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM like_table WHERE boardId=#{id};
+    </select>
+
+</mapper>

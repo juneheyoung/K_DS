@@ -5,9 +5,11 @@ import '../style/BoardWritePage.css';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Toast from '../components/Toast';
+
 // input 태그 text 태그 css 참조해서 넣을 것 . 
 function BoardWritePage() {
-
+  
 
   const [boardTitle, setBoardTitle] = useState('');
   const [boardContents, setBoardContents] = useState('');
@@ -15,6 +17,7 @@ function BoardWritePage() {
   const navigate = useNavigate();
 
   const handleWrite = () => {
+
 
     const body = {
       'boardTitle': boardTitle,
@@ -36,8 +39,8 @@ function BoardWritePage() {
       .catch((err) => {
         console.log(err)
       })
-
   }
+
 
   return (
     <main style={{ display: 'flex', justifyContent: 'center' }}>

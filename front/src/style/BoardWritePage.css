@@ -1,8 +1,11 @@
 .card {
     width: 600px;
-    /* height: 500px; */
+    min-height: 700px;
+    max-height: 1000px;
+    height: auto;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   }
 
 .card-header1 h1{
@@ -29,6 +32,7 @@
     box-shadow: 3px 3px 10px #e6e6e6;
 }
 
+
 .card-write .title-w input[type="text"]{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -41,6 +45,15 @@
     max-width: 85.5%;
     min-height: 200px;
     max-height: 200px;
+    box-shadow: inset 3px 3px 10px #e6e6e6
+    ;
+}
+.card-write .msg2 textarea{
+    
+    min-width:85.5% ;
+    max-width: 85.5%;
+    min-height: 100px;
+    max-height: 100px;
     box-shadow: inset 3px 3px 10px #e6e6e6
     ;
 }

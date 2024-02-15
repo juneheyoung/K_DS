@@ -16,8 +16,8 @@ public class CommentService {
         commentRepository.save(commentDTO);
     }
 
-    public List<CommentDTO> findAll(Long boardId) {
-        return commentRepository.findAll(boardId);
+    public List<CommentDTO> findAll(int id) {
+        return commentRepository.findAll(id);
     }
 
     public void deleteComment(int commentId){

@@ -28,6 +28,7 @@ function MainPage() {
                 // console.log(res.data)
                 setPosts(res.data)
                 console.log('post변화감지:' + posts)
+                console.log('POST Data:', JSON.stringify(posts, null, 2))
             })
     }, []);
 
@@ -49,7 +50,9 @@ function MainPage() {
 
             <main>
                 <header>
-                    <h1 className="title">게시판</h1>
+                    <div style={{ textAlign: 'center', justifyContent: 'center' }}>
+                        <h1 className="title">게시판</h1>
+                    </div>
                     <nav className="nav-tabs" id="nav-tabs">
                         {/* <a href="#0" className="active">
                             최신순
@@ -75,7 +78,7 @@ function MainPage() {
                         </Row>
                         {posts.map((post, index) => (
                             <div key={index}>
-
+                                
                                 <Row >
                                     <Col sm={2}>
                                         <div onClick={() => handleDetailClick(post.boardId)}>{posts.length - index}</div>
@@ -85,7 +88,7 @@ function MainPage() {
                                         <div onClick={() => handleDetailClick(post.boardId)}>{post.boardTitle}</div>
                                     </Col>
                                     <Col sm={2}>
-                                        <div onClick={() => handleDetailClick(post.boardId)}>{post.boardWriter}</div>
+                                        <div onClick={() => handleDetailClick(post.boardId)}>{post.userName}</div>
                                     </Col>
                                     <hr />
                                 </Row>
